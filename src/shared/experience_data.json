@@ -1,0 +1,46 @@
+{
+    "title": "Experience",
+    "subtitle": "Work, Internship and Volunteership",
+    "description": "Aspiring to explore myself in the world of programming by solving challenging problems of the world and exposing myself to different environments. I always work to enhance my skills alongside being resourceful to the organisation I work with.",
+    "header_image_path": "experience.svg",
+    "sections": [{
+            "title": "Work",
+            "experiences": [{
+                "title": "",
+                "company": "",
+                "company_url": "",
+                "logo_path": "s.png",
+                "duration": "",
+                "location": "",
+                "description": "",
+                "color": ""
+            }]
+        },
+        {
+            "title": "Internships",
+            "experiences": [{
+                "title": "",
+                "company": "",
+                "company_url": "",
+                "logo_path": "s.png",
+                "duration": "",
+                "location": "",
+                "description": "",
+                "color": ""
+            }]
+        },
+        {
+            "title": "Volunteerships",
+            "experiences": [{
+                "title": "",
+                "company": "",
+                "company_url": "",
+                "logo_path": "s.png",
+                "duration": "",
+                "location": "",
+                "description": "",
+                "color": ""
+            }]
+        }
+    ]
+}
