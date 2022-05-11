@@ -1,6 +1,1 @@
-https://github.com/ashutosh1919/masterPortfolio
-https://github.com/ashutosh1919/truvisory
-https://github.com/ashutosh1919/ml-data-bot
-https://github.com/ashutosh1919/Stock-Prediction-using-LSTM
-https://github.com/dsc-iiitdmk/Pick-Parser
-https://github.com/ashutosh1919/Survival_3D_Game
+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
