@@ -40,7 +40,7 @@ jobs:
             --stream "${{ secrets.COVERITY_STREAM_NAME }}"
  
       - name: Archive Coverity Logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverity-results
           path: coverity/logs/
