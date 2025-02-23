@@ -1,0 +1,31 @@
+name: Coverity Static Analysis
+ 
+on: [push, pull_request]
+ 
+jobs:
+  coverity_scan:
+    runs-on: self-hosted
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+ 
+      - name: Install Bridge CLI
+        run: |
+          curl -LO https://github.com/synopsys-sig/synopsys-bridge/releases/latest/download/synopsys-bridge-linux.zip
+          unzip synopsys-bridge-linux.zip
+          chmod +x synopsys-bridge
+ 
+      - name: Run Coverity Scan
+        run: |
+          ./synopsys-bridge run coverity \
+            --url ${{ secrets.COVERITY_URL }} \
+            --username ${{ secrets.COVERITY_USERNAME }} \
+            --password ${{ secrets.COVERITY_PASSWORD }} \
+            --stream "${{ secrets.COVERITY_STREAM_NAME }}"
+ 
+      - name: Archive Coverity Logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverity-results
+          path: coverity/logs/
