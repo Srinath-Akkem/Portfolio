@@ -15,9 +15,9 @@ jobs:
       - name: Coverity Scan
         uses: blackduck-inc/black-duck-security-scan@v2.0.0
         with:
-          coverity_url: ${{ secrets.COVERITY_URL }}
-          coverity_user: ${{ secrets.COVERITY_USERNAME }}
-          coverity_passphrase: ${{ secrets.COVERITY_PASSWORD }}
+          coverity_url: ${{ vars.COVERITY_URL }}
+          coverity_user: ${{ secrets.COVERITY_USER }}
+          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
       - name: Archive Coverity Logs
         uses: actions/upload-artifact@v4
         with:
