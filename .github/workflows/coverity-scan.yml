@@ -107,4 +107,4 @@ jobs:
         with:
           webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
           message: "Coverity scan completed successfully for ${{ github.event.repository.name }} on branch ${{ github.ref_name }}"
- 
+
