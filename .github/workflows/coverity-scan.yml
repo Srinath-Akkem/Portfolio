@@ -17,16 +17,16 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v3
  
-      - name: Set up Node.js Environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
+      # - name: Set up Node.js Environment
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "18"
  
-      - name: Install Project Dependencies
-        run: npm ci
+      # - name: Install Project Dependencies
+      #   run: npm ci
  
-      - name: Pre-Build Cleanup
-        run: npm run clean || echo "No cleanup required"
+      # - name: Pre-Build Cleanup
+      #   run: npm run clean || echo "No cleanup required"
  
       - name: Coverity Full Scan on Push
         if: github.event_name != 'pull_request'
@@ -39,8 +39,8 @@ jobs:
           coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
           coverity_policy_view: "Outstanding Issues"
           coverity_waitForScan: true
-          coverity_build_command: "npm run build"
-          coverity_clean_command: "npm run clean"
+          # coverity_build_command: "npm run build"
+          # coverity_clean_command: "npm run clean"
           coverity_version: "2023.6"
           project_directory: "./"
           coverity_install_directory: "/opt/coverity"
