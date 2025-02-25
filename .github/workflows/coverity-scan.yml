@@ -1,110 +1,132 @@
-name: CoverityScan
+# name: CoverityScan
  
+# on:
+#   push:
+#     branches:  [main, master, develop, stage, release ]
+#   pull_request:
+#     branches:  [main, master, develop, stage, release ]
+#   # schedule:
+#     # - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC
+#   workflow_dispatch:
+ 
+# jobs:
+#   coverity_scan:
+#     runs-on: self-hosted
+ 
+#     steps:
+#       - name: Checkout Source Code
+#         uses: actions/checkout@v3
+ 
+#       # - name: Set up Node.js Environment
+#       #   uses: actions/setup-node@v3
+#       #   with:
+#       #     node-version: "18"
+ 
+#       # - name: Install Project Dependencies
+#       #   run: npm ci
+ 
+#       # - name: Pre-Build Cleanup
+#       #   run: npm run clean || echo "No cleanup required"
+ 
+#       - name: Coverity Full Scan on Push
+#         if: github.event_name != 'pull_request'
+#         uses: blackduck-inc/black-duck-security-scan@v2.0.0
+#         with:
+#           coverity_url: ${{ secrets.COVERITY_URL }}
+#           coverity_user: ${{ secrets.COVERITY_USER }}
+#           coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+#           coverity_project_name: ${{ github.event.repository.name }}
+#           coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
+#           coverity_policy_view: "Outstanding Issues"
+#           coverity_waitForScan: true
+#           # coverity_build_command: "npm run build"
+#           # coverity_clean_command: "npm run clean"
+#           coverity_version: "2023.6"
+#           project_directory: "./"
+#           coverity_install_directory: "/opt/coverity"
+#           include_diagnostics: true
+#           coverity_timeout: 1800
+ 
+#       - name: Coverity PR Scan with Comments
+#         if: github.event_name == 'pull_request'
+#         uses: blackduck-inc/black-duck-security-scan@v2.0.0
+#         with:
+#           coverity_url: ${{ secrets.COVERITY_URL }}
+#           coverity_user: ${{ secrets.COVERITY_USER }}
+#           coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+#           coverity_project_name: ${{ github.event.repository.name }}
+#           coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
+#           coverity_prComment_enabled: true
+#           github_token: ${{ secrets.GH_PAT_TOKEN }}
+ 
+#       - name: Verify Coverity Scan Output
+#         run: |
+#           if [ ! -f "/opt/coverity/cov-int/build-log.txt" ]; then
+#             echo "Coverity build log missing, scan might have failed"
+#             exit 1
+#           fi
+ 
+#       - name: Generate SARIF Report
+#         run: |
+#           cov-format-errors --dir /opt/coverity/cov-int --sarif coverity-results.sarif || {
+#             echo "SARIF generation failed";
+#             exit 1;
+#           }
+ 
+#       - name: Validate SARIF Report
+#         run: |
+#           if ! jq empty coverity-results.sarif 2>/dev/null; then
+#             echo "Invalid SARIF report format"
+#             exit 1
+#           fi
+ 
+#       - name: Upload SARIF Report to GitHub Security Dashboard
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           sarif_file: coverity-results.sarif
+ 
+#       - name: Archive Coverity Scan Reports
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: coverity-security-scan-results
+#           path: |
+#             coverity-results.sarif
+#             /opt/coverity/cov-int/build-log.txt
+#             /opt/coverity/cov-int/output.log
+ 
+#       - name: Send Microsoft Teams Notification on Failure
+#         if: failure()
+#         uses: skitionek/notify-microsoft-teams@v1
+#         with:
+#           webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+#           message: "Coverity scan failed for ${{ github.repository }} on branch ${{ github.ref }}"
+ 
+#       - name: Send Microsoft Teams Notification on Success
+#         if: success()
+#         uses: skitionek/notify-microsoft-teams@v1
+#         with:
+#           webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+#           message: "Coverity scan completed successfully for ${{ github.event.repository.name }} on branch ${{ github.ref_name }}"
+
+name: coverity
 on:
   push:
-    branches:  [main, master, develop, stage, release ]
+    branches: [ main, master, develop, stage, release ]
   pull_request:
-    branches:  [main, master, develop, stage, release ]
-  # schedule:
-    # - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC
+    branches: [ main, master, develop, stage, release ]
   workflow_dispatch:
- 
-jobs:
-  coverity_scan:
-    runs-on: self-hosted
- 
-    steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v3
- 
-      # - name: Set up Node.js Environment
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: "18"
- 
-      # - name: Install Project Dependencies
-      #   run: npm ci
- 
-      # - name: Pre-Build Cleanup
-      #   run: npm run clean || echo "No cleanup required"
- 
-      - name: Coverity Full Scan on Push
-        if: github.event_name != 'pull_request'
-        uses: blackduck-inc/black-duck-security-scan@v2.0.0
-        with:
-          coverity_url: ${{ secrets.COVERITY_URL }}
-          coverity_user: ${{ secrets.COVERITY_USER }}
-          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
-          coverity_project_name: ${{ github.event.repository.name }}
-          coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
-          coverity_policy_view: "Outstanding Issues"
-          coverity_waitForScan: true
-          # coverity_build_command: "npm run build"
-          # coverity_clean_command: "npm run clean"
-          coverity_version: "2023.6"
-          project_directory: "./"
-          coverity_install_directory: "/opt/coverity"
-          include_diagnostics: true
-          coverity_timeout: 1800
- 
-      - name: Coverity PR Scan with Comments
-        if: github.event_name == 'pull_request'
-        uses: blackduck-inc/black-duck-security-scan@v2.0.0
-        with:
-          coverity_url: ${{ secrets.COVERITY_URL }}
-          coverity_user: ${{ secrets.COVERITY_USER }}
-          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
-          coverity_project_name: ${{ github.event.repository.name }}
-          coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
-          coverity_prComment_enabled: true
-          github_token: ${{ secrets.GH_PAT_TOKEN }}
- 
-      - name: Verify Coverity Scan Output
-        run: |
-          if [ ! -f "/opt/coverity/cov-int/build-log.txt" ]; then
-            echo "Coverity build log missing, scan might have failed"
-            exit 1
-          fi
- 
-      - name: Generate SARIF Report
-        run: |
-          cov-format-errors --dir /opt/coverity/cov-int --sarif coverity-results.sarif || {
-            echo "SARIF generation failed";
-            exit 1;
-          }
- 
-      - name: Validate SARIF Report
-        run: |
-          if ! jq empty coverity-results.sarif 2>/dev/null; then
-            echo "Invalid SARIF report format"
-            exit 1
-          fi
- 
-      - name: Upload SARIF Report to GitHub Security Dashboard
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: coverity-results.sarif
- 
-      - name: Archive Coverity Scan Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverity-security-scan-results
-          path: |
-            coverity-results.sarif
-            /opt/coverity/cov-int/build-log.txt
-            /opt/coverity/cov-int/output.log
- 
-      - name: Send Microsoft Teams Notification on Failure
-        if: failure()
-        uses: skitionek/notify-microsoft-teams@v1
-        with:
-          webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          message: "Coverity scan failed for ${{ github.repository }} on branch ${{ github.ref }}"
- 
-      - name: Send Microsoft Teams Notification on Success
-        if: success()
-        uses: skitionek/notify-microsoft-teams@v1
-        with:
-          webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          message: "Coverity scan completed successfully for ${{ github.event.repository.name }} on branch ${{ github.ref_name }}"
 
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+      - name: Coverity Scan
+        uses: blackduck-inc/black-duck-security-scan@v2.0.0
+        with:
+          coverity_url: ${{ secrets.COVERITY_URL }}
+          coverity_user: ${{ secrets.COVERITY_USER }}
+          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+          coverity_project_name: ${{ github.event.repository.name }}
+          coverity_stream_name: ${{ github.event.repository.name }}-${{ github.ref_name }}
